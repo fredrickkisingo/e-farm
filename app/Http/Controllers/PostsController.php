@@ -94,7 +94,7 @@ class PostsController extends Controller
              $mapLocate->posts_id = $post->id;//product's id is copied to the map table, product_id column
             $mapLocate->save();//location & product_id saved to map table
 
-            return redirect('/posts')->with('success','Product Created');
+            return redirect('/posts')->with('success','Product Uploaded');
     }
 
     /**

@@ -37,7 +37,7 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
     //Creates relationship between a farmer and products
-
+        //a user has many posts
      public function posts(){
         return $this->hasMany('App\Post');
       }
@@ -45,3 +45,4 @@ class User extends \TCG\Voyager\Models\User
           return $this->hasMany('App\Cart');
       }
 }
+//a user has many carts
