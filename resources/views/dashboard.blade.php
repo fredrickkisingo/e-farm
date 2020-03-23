@@ -41,7 +41,7 @@
                                     <p>You have no products</p>
                                 @endif
                     @else
-                        <p>You are not a farmer</p>
+                        <p>You are not a farmer you can view the products catalogue</p>
                     @endif
                  </div>
             </div>
