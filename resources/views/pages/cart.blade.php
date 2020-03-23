@@ -62,6 +62,17 @@
                             {!!Form::close()!!}
                         </td> --}}
                     </tr>
+                    <tr>
+                        <td><a class="btn btn-primary" href="/posts"><i class='fas fa-shopping-cart'></i> Payment via M-Pesa</a>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td> </td>
+                        {{-- <td>
+                            {!!Form::open(['action'=> 'PurchasesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!} 
+                            {{Form::button('Checkout', ['type' => 'submit','class'=>'btn btn-success'])}} 
+                            {!!Form::close()!!}
+                        </td> --}}
+                    </tr>
                     
                     
                     @else

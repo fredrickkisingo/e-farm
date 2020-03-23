@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
+        Safaricom\Mpesa\MpesaServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -232,6 +233,7 @@ return [
         'Form'=>Collective\Html\FormFacade::class,
         'Html'=>Collective\HtmlFacade::class,
         'GMaps' => FarhanWazir\GoogleMaps\Facades\GMapsFacade::class,
+        'Mpesa'=> \Safaricom\Mpesa\MpesaServiceProvider::class,
 
     ],
 
