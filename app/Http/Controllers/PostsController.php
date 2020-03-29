@@ -59,7 +59,7 @@ class PostsController extends Controller
             'cover_image' =>'image|nullable|max:1999',
             
         
-        ]);
+            ]);
             //Handle File Upload
             if($request->hasFile('cover_image')){
                 //Get filename with the extension
