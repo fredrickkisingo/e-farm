@@ -17,7 +17,7 @@
 
           <p class="price-detail-wrap">
             <span class="price h3 text-info"> 
-		<span class="currency">KSH </span><span class="num">{!!$post->products_price!!}</span>
+		        <span class="currency">KSH </span><span class="num">{!!$post->products_price!!}</span>
             </span>
             <span>/per kg</span>
           </p>

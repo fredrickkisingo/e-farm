@@ -20,6 +20,7 @@ Route::resource('posts', 'PostsController');
 Route::resource('carts','CartsController');
 Route::resource('maps','MapsController');
 Route::resource('directions','DirectionsController');
+Route::resource('harvestlosses','HarvestlossesController');
 
 //Route::get('/',function(){
    

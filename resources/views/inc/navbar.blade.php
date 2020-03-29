@@ -19,8 +19,9 @@
                   <a class="nav-link" href="/about">About</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link " href="/services">Services</a>
-                </li>
+                    <a class="nav-link" href="/harvestlosses">Losses mitigation</a>
+                  </li>
+                
                   <li class="nav-item">
                       <a class="nav-link" href="/posts">Products</a>
                     </li>
