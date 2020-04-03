@@ -11,6 +11,10 @@
         {{Form::label('price','Price (KSH)')}} 
         {{Form::text('price', $post->products_price, ['class'=>'form-control ', 'placeholder'=>'Price (KSH)'])}}
       </div>
+       <div class="form-group col-md-6">
+        {{Form::label('location','My Location')}} 
+        {{Form::text('location', $post->location, ['class'=>'form-control ', 'placeholder'=>'My Location'])}}
+      </div>
       <div class="form-group">
         {{Form::label('body','Product Description')}} {{Form::textarea('body', $post->body, ['id'=> 'article-ckeditor',
         'class'=>'form-control', 'placeholder'=>'Product Description'])}}

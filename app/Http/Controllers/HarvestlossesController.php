@@ -15,7 +15,7 @@ class HarvestlossesController extends Controller
     public function index()
     {
         $blogs = Harvestlosses::orderBy('created_at','desc')->paginate(10);
-       return view('harvestlosses.index')->with('blogs',$blogs);
+        return view('harvestlosses.index')->with('blogs',$blogs);
     }
 
     /**
@@ -25,7 +25,7 @@ class HarvestlossesController extends Controller
      */
     public function create()
     {
-        //
+        return view('harvestlosses.create');
     }
 
     /**
@@ -39,9 +39,21 @@ class HarvestlossesController extends Controller
         $this->validate($request, [
             'title'=>'required',
             'body'=>'required',
-
+          
             ]);
-    }
+
+
+     //create Blog
+     $blog= new Harvestlosses; //declaration of the object 'blog'
+     $blog->title=$request->input('title');
+     $blog->body=$request->input('body');
+
+     $blog->save();
+
+     return redirect('/harvestlosses')->with('success','Blog Uploaded');
+
+
+        }
 
     /**
      * Display the specified resource.
@@ -51,7 +63,8 @@ class HarvestlossesController extends Controller
      */
     public function show($id)
     {
-        //
+        $blog = Harvestlosses::find($id);
+        return view('harvestlosses.show')->with('blog',$blog);
     }
 
     /**

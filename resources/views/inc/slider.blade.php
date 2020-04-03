@@ -4,7 +4,7 @@
             <img src="/storage/cover_images/scott-warman-NpNvI4ilT4A-unsplash.jpg" class="d-block w-100" alt="Slider 1">
         </div>
         <div class="carousel-item" data-interval="2000">
-            <img src="/storage/cover_images/farmers.jpg" class="d-block w-100" alt="Slider 2">
+            <img src="/storage/cover_images/fh.jpg" class="d-block w-100" alt="Slider 2">
         </div>
         <div class="carousel-item">
             <img src="/storage/cover_images/smilingfarm2.jpg" class="d-block w-100" alt="Slider 3">

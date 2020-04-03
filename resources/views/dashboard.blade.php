@@ -41,7 +41,8 @@
                                     <p>You have no products</p>
                                 @endif
                     @else
-                        <p>You are not a farmer you can view the products catalogue</p>
+                        <p>View the products catalogue by clicking the button below!</p>
+                        <a href="/posts" class="btn btn-primary">Products</a>
                     @endif
                  </div>
             </div>

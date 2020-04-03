@@ -57,9 +57,7 @@ class PostsController extends Controller
             'title'=>'required',
             'body'=>'required',
             'cover_image' =>'image|nullable|max:1999',
-            
-        
-            ]);
+             ]);
             //Handle File Upload
             if($request->hasFile('cover_image')){
                 //Get filename with the extension
@@ -160,12 +158,13 @@ class PostsController extends Controller
             $post->body=$request->input('body');
             $post->products_price = $request -> input('price');
             $post->phone_number = $request -> input('phone_number');
+            $post->location=$request->input('location');
+            $mapLocate->product_address=$request->input('location');
             if($request->hasFile('cover_image')){
                 $post->cover_image= $fileNameToStore;
             }
             $post->save();
            $mapLocate->save();
-
             return redirect('/posts')->with('success','Product Details Updated');
     }
 
