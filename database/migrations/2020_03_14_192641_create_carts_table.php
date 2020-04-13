@@ -19,10 +19,10 @@ class CreateCartsTable extends Migration
             $table->integer('product_id');
             $table->string('product_name');//title column
             $table->mediumText('product_desc');//product description
-            $table->integer('price')->default('0');
             $table->integer('total_price')->default('0');
             $table->string('cover_image')->default('');
             $table->string('session_id')->default('0');
+            $table->string('location');
         });
     }
 

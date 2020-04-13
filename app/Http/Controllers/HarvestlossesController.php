@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Harvestlosses;
+use App\User;
+use DB;
 
 class HarvestlossesController extends Controller
 {
@@ -41,16 +43,13 @@ class HarvestlossesController extends Controller
             'body'=>'required',
           
             ]);
-
-
-     //create Blog
+    
+            //create Blog
      $blog= new Harvestlosses; //declaration of the object 'blog'
      $blog->title=$request->input('title');
      $blog->body=$request->input('body');
-
-     $blog->save();
-
-     return redirect('/harvestlosses')->with('success','Blog Uploaded');
+        $blog->save();
+    return redirect('/harvestlosses')->with('success','Blog Uploaded');
 
 
         }
@@ -75,7 +74,8 @@ class HarvestlossesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $blog = Harvestlosses::find($id);
+        return view('harvestlosses.edit')->with('blog',$blog);
     }
 
     /**
@@ -87,8 +87,17 @@ class HarvestlossesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        $this->validate($request,[
+            'title'=>'required',
+            'body'=>'required'
+    ]);
+
+        $blog= Harvestlosses::find($id);
+        $blog->title=$request->input('title');
+        $blog->body=$request->input('body');
+        $blog->save();
+        return redirect('/harvestlosses')->with('success','Blog Details Updated');
+}
 
     /**
      * Remove the specified resource from storage.
@@ -98,6 +107,9 @@ class HarvestlossesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $blog = Harvestlosses::find($id);
+
+        $blog->delete();
+        return redirect('/harvestlosses')->with('success','Blog Removed');
     }
 }

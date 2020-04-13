@@ -51,28 +51,37 @@
                             <h3><strong> KSH {{$carts->pluck('total_price')->sum()}}</strong></h3>
                         </td>
                     </tr>
-                    <tr>
-                        <td><a class="btn btn-primary" href="/posts"><i class='fas fa-shopping-cart'></i> Continue Shopping</a>   </td>
-                        <td>   </td>
-                        <td>   </td>
-                        <td> </td>
+                        <tr>
+                            
+                            
+                            <td><a class="btn btn-primary" href="/posts"><i class='fas fa-shopping-cart'></i> Continue Shopping</a>   </td>
+                            <td>   </td>
+                            <td>   </td>
+                            <td> </td>
+                        </tr>
+                        <td>
+                            {!! Form::open(['action'=> 'PurchasesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    {{Form::label('phone_number','My Phone Number')}} {{Form::text('phone_number', '', ['class'=>'form-control ', 'placeholder'=>'Phone Number'])}}
+                                </div>
+                            </div>
+                    
+                    {{Form::button('Checkout', ['type' => 'submit','class'=>'btn btn-success'])}} 
+                     {!! Form::close() !!}
+                        </td>
+
+                    {{-- <tr> --}}
+                        {{-- <td><a style="btn btn-primary; color:green" href="/posts"><i class='fas fa-shopping-cart'></i> Payment via M-Pesa</a>   </td> --}}
+                        {{-- <td>   </td> --}}
+                        {{-- <td>   </td> --}}
+                        {{-- <td> </td> --}}
                         {{-- <td>
                             {!!Form::open(['action'=> 'PurchasesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!} 
                             {{Form::button('Checkout', ['type' => 'submit','class'=>'btn btn-success'])}} 
                             {!!Form::close()!!}
                         </td> --}}
-                    </tr>
-                    <tr>
-                        <td><a class="btn btn-primary" href="/posts"><i class='fas fa-shopping-cart'></i> Payment via M-Pesa</a>   </td>
-                        <td>   </td>
-                        <td>   </td>
-                        <td> </td>
-                        {{-- <td>
-                            {!!Form::open(['action'=> 'PurchasesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!} 
-                            {{Form::button('Checkout', ['type' => 'submit','class'=>'btn btn-success'])}} 
-                            {!!Form::close()!!}
-                        </td> --}}
-                    </tr>
+                    {{-- </tr> --}}
                     
                     
                     @else

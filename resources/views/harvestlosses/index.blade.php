@@ -5,17 +5,20 @@
  @foreach($blogs as $blog)
  <div class="container">
      
-<div class="col-sm-6">
-    <div class="card">
+<div class="card text-center">
+    <div class="card-header">
+    </div>
       <div class="card-body">
         <h5 class="card-title">{{$blog->title}}</h5>
-         <small>Posted On {{$blog->created_at}}</small>
-        <p class="card-text"></p>
+       <p class="card-text"></p> 
         <a href="/harvestlosses/{{$blog->id}}" class="btn btn-primary">Read more</a>
       </div>
+      <div class="card-footer text-muted">
+        Posted On {{$blog->created_at}}
+      </div>
+
     </div>
   </div>
- </div>
  @endforeach
 
  @else

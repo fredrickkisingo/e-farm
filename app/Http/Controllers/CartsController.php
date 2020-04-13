@@ -8,6 +8,7 @@ use App\Post;
 use App\User;
 use DB;
 use Illuminate\Support\Facades\Storage;
+use Gathuku\Mpesa\Facades\Mpesa;
 
 class CartsController extends Controller
 {
@@ -48,9 +49,8 @@ class CartsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
+     //
+        }
     /**
      * Display the specified resource.
      *
@@ -80,6 +80,8 @@ class CartsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    
     public function update(Request $request, $id)
     {
         $user_id = auth()->user()->id;
@@ -91,7 +93,7 @@ class CartsController extends Controller
         if (Cart::where('session_id', '=', $session_id)->exists()) {
             //Check whether product exist if yes increase quantity`
             $entry = Cart::where(['session_id' => $session_id, 'product_id' => $id])->increment('qty', 1);
-            $entry = DB::update("UPDATE carts SET total_price=qty * price "); //update total_price column
+            $entry = DB::update("UPDATE carts SET total_price=price* qty "); //update total_price column
 
             // $entry = Cart::where(['session_id' => $session_id, 'post_id' => $id])->increment('total_price', '`total_price`');
 
@@ -108,8 +110,7 @@ class CartsController extends Controller
                 $cart_item->user_id = auth()->user()->id; //the user id will be added
                 $cart_item->qty = 1;
                 $cart_item->price = $post_select->products_price;
-               
-                // $cart_item->total_price = DB::table('carts')->selectRaw('SUM(qty*price) as total')->pluck('total');
+                $cart_item->location = $post_select->location;
                 $cart_item->cover_image = $post_select->cover_image;
                 $cart_item->farmer_id = $post_select->user_id;
 
@@ -128,7 +129,7 @@ class CartsController extends Controller
             $cart_item->qty = 1;
             $cart_item->price = $post_select->products_price;
             
-            // $cart_item->total_price = DB::table('carts')->selectRaw('SUM(qty*price) as total')->pluck('total');
+           // $cart_item->total_price = DB::table('carts')->selectRaw('SUM(qty*price) as total')->pluck('total');
             $cart_item->cover_image = $post_select->cover_image;
             $cart_item->farmer_id = $post_select->user_id;
             $cart_item->save();
@@ -152,4 +153,7 @@ class CartsController extends Controller
           return redirect('/carts')->with('success', 'Item removed from Cart');
       
     }
+
+       
+    
 }

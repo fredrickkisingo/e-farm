@@ -141,7 +141,7 @@ class MapsController extends Controller
         $config = array();
         $config['map_height'] = "100%";
         $config['center'] = $locate;
-        $config['zoom'] = "18";
+        $config['zoom'] = "auto";
         $config['scrollwheel'] = false;
         $config['geocodeCaching'] = true;
         $config['onboundschanged'] = 'if (!centreGot) {
@@ -192,7 +192,7 @@ class MapsController extends Controller
         $config = array();
         $config['map_height'] = "100%";
         $config['center'] = $locate;
-        $config['zoom'] = "7.49";
+        $config['zoom'] = "auto";
         $config['scrollwheel'] = false;
         $config['geocodeCaching'] = true;
         $config['onboundschanged'] = 'if (!centreGot) {

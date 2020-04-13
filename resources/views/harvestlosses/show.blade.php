@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
     <a href="/harvestlosses" class="btn btn-dark">Go Back</a>
@@ -9,7 +8,7 @@
            <aside class="col-sm-7">
             <article class="card-body p-5">
               <dl class="item-property">
-                <dt>Product Description</dt>
+                <dt>Blog Information</dt>
                 <dd>
                   {!!$blog->body!!}
                 </dd>
@@ -20,13 +19,14 @@
               </dl>
               
               <hr>
-              </div>
+      </div>
+      </div>
     
               <!--if user has logged in -->
               @if(!Auth::guest()) 
     
-                @if(Auth::user()->id == $blog->user_id)
-                  <a href="/harvestlosses/{{$blog->id}}/edit" class="btn btn-warning">Edit</a> 
+              @if(Auth::user()->role_id==1)
+                 <a href="/harvestlosses/{{$blog->id}}/edit" class="btn btn-warning">Edit</a> 
                   {!!Form::open(['action'=>['HarvestlossesController@destroy', $blog->id], 'method'=>'POST','class'=>'float-right'])!!} 
                   {{Form::hidden('_method', 'DELETE')}} 
                   {{Form::submit('Delete', ['class'=>'btn btn-danger'])}} 
@@ -42,4 +42,5 @@
             <!-- card-body.// -->
           </aside>    
       </div>
+</div>
 @endsection

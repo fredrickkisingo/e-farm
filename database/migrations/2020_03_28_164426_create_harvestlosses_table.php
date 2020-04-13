@@ -18,8 +18,6 @@ class CreateHarvestlossesTable extends Migration
             $table->timestamps();
             $table->string('title');
             $table->mediumText('body');
-
-
         });
     }
 

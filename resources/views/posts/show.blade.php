@@ -78,5 +78,6 @@
         </article>
         <!-- card-body.// -->
       </aside>    
+   </div>
   </div>
 @endsection

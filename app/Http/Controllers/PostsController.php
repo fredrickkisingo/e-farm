@@ -136,7 +136,7 @@ class PostsController extends Controller
         $this->validate($request,[
             'title'=>'required',
             'body'=>'required'
-    ]);
+            ]);
              //Handle File Upload
              if($request->hasFile('cover_image')){
                 //Get filename with the extension

@@ -9,14 +9,14 @@
         {{-- Starts with the label (first is the label name associated with the second parameter(displayed on the screen)) Then the
         text has the text name associated with what will be entered in the second parameter (empty because user must provide),
         then the third is the attribute of that text or textarea etc using bootstrap --}} 
-        {{Form::label('title','Information Title')}} 
-        {{Form::text('title', '', ['class'=>'form-control', 'placeholder'=>'Information Title'])}}
+        {{Form::label('title','Post Title')}} 
+        {{Form::text('title', '', ['id'=> 'article-ckeditor','class'=>'form-control', 'placeholder'=>'Post Title'])}}
         </div>
        
   </div>
  <div class="form-group">
-            {{Form::label('body','Blog Description')}} 
-            {{Form::textarea('body', '', [ 'class'=>'form-control','placeholder'=>'Blog Description'])}}
+            {{Form::label('body','Post Description')}} 
+            {{Form::textarea('body', '', [ 'id'=> 'article-ckeditor','class'=>'form-control','placeholder'=>'Post Description'])}}
         </div>
   {{Form::submit('Submit', ['class'=>'btn btn-primary'])}} {!! Form::close() !!}
   @else
