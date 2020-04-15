@@ -7,6 +7,8 @@ use App\Cart;
 use App\User;
 use Illuminate\Support\Facades\Storage;
 use App\Purchase;
+use Gathuku\Mpesa\Facades\Mpesa;
+
 
 class PurchasesController extends Controller
 {
@@ -38,12 +40,16 @@ class PurchasesController extends Controller
      */
     public function store(Request $request)
     {
+        $user_id = auth()->user()->id;//this is to allow the mpesa transaction to take place for the cart contents of that specific user
+        if (Cart::where('user_id', '=', $user_id)->exists()) {
+                $cart_price= new Cart;
+                $entry = Cart::where(['user_id' => $user_id])->pluck('total_price')->sum();
 
-        $phone_num= $request->input('phone_number');
-        // dd($phone_num);
-        $expressResponse=Mpesa::express(1,$phone_num,'Cart payment','Testing Payment');   
-        
-        if ($expressResponse.ResponseDescription == "Success. Request accepted for processing" ){
+            
+                $phone_num= $request->input('phone_number');
+                $expressResponse=Mpesa::express($entry,$phone_num,'Cart products payment','Testing Payment');   
+        }
+        if ($expressResponse.ResponseCode == "0" ){                 
             return view(posts.index)->with('success', 'Mpesa Successful');
         }
         foreach ($cart_select as $cart_item) {
