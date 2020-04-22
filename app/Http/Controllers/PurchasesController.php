@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Support\Facades\Storage;
 use App\Purchase;
 use Gathuku\Mpesa\Facades\Mpesa;
+use Session;
+use App\Post;
 
 
 class PurchasesController extends Controller
@@ -40,44 +42,93 @@ class PurchasesController extends Controller
      */
     public function store(Request $request)
     {
-        $user_id = auth()->user()->id;//this is to allow the mpesa transaction to take place for the cart contents of that specific user
-        if (Cart::where('user_id', '=', $user_id)->exists()) {
-                $cart_price= new Cart;
-                $entry = Cart::where(['user_id' => $user_id])->pluck('total_price')->sum();
+            $user_id = auth()->user()->id;//this is to allow the mpesa transaction to take place for the cart contents of that specific user
+    
+            $cart_select= Cart::where('user_id',$user_id)->get();
+    
+            foreach ($cart_select as $cart_item) {
+               
+                $purchase = new Purchase;
+    
+    
+                $purchase->session_id = $cart_item->session_id;
+                $purchase->product_id = $cart_item->product_id;
+                $purchase->product_name = $cart_item->product_name;
+                $purchase->product_desc = $cart_item->product_desc;
+                $purchase->user_id = auth()->user()->id; //the user id will be added
+                $purchase->qty = $cart_item->qty;
+                $purchase->price = $cart_item->price;
+                $purchase->total_price = $cart_item->total_price;
+                $purchase->farmer_id = $cart_item->farmer_id;
+                $purchase->save();
+            }
+            if (Cart::where('user_id', '=', $user_id)->exists()) {
+                    $cart_price= new Cart;
+                    $entry = Cart::where(['user_id' => $user_id])->pluck('total_price')->sum();
+    
+                
+                   //here is where we are executing the mpesa payment
+                    $phone_num= $request->input('phone_number');
+    
+                    $pesa=Mpesa::express($entry,$phone_num,'Cart products payment','Testing Payment');
+                    //decode response to array
+                    $decode = json_decode($pesa,true);
+                    //here check if there was an error with the checkout request
+                    if(empty($decode['requestId'])){
+
+                        $MerchantRequestID = $decode['MerchantRequestID'];
+                        $CheckoutRequestID = $decode['CheckoutRequestID'];
+                        $ResponseCode = $decode['ResponseCode'];
+                        $ResponseDescription = $decode['ResponseDescription'];
+                        $CustomerMessage = $decode['CustomerMessage'];
+                        
+                        /*
+                        ideally here you should store the payment status on the
+                         database since the request was successful
+                         */
+
+                        
+                    
+                        return redirect('/posts')->with('success','Success.Request accepted for processing');
+                        
+                    }
+                    //here the payment failed... so we should notify the user that they should retry
+                    $requestId = $decode['requestId'];
+                    $errorCode = $decode['errorCode'];
+                    $errorMessage = $decode['errorMessage'];
+                    
+                    //here you update the payment status in the database with the errorMessage
+                    return $errorMessage;
+            }
+                $responseMpesa=Mpesa::lnmo_query();
+                $decoded = json_decode($responseMpesa);
+
+                //capture the payment data in variables...
+                $resultCode = $decoded->Body->stkCallback->ResultCode;
+                $resultDesc = $decoded->Body->stkCallback->ResultDesc;
+                $CheckoutRequestID = $decoded->Body->stkCallback->CheckoutRequestID;
+                $MerchantRequestID = $decoded->Body->stkCallback->MerchantRequestID;
+
+                //Callback Meta Data...
+                $CallbackMetadata = $decoded->Body->stkCallback->CallbackMetadata;
+
+                foreach($CallbackMetadata as $key=>$value){
+
+                $Amount             = $value['0']->Value;// Payment Amount..
+                $mpesaRef            = $value['1']->Value;// Payment Referrence MPESA
+                $mpesaPhoneNumber   = $value['4']->Value;// Payment Phone Number
+
+                }
 
             
-                $phone_num= $request->input('phone_number');
-                $expressResponse=Mpesa::express($entry,$phone_num,'Cart products payment','Testing Payment');   
+          
+            //deletes cart entries of the specific user logged in
+            Cart::where('user_id', $user_id)->delete();
+    
+            return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
+    
+    
         }
-        if ($expressResponse.ResponseCode == "0" ){                 
-            return view(posts.index)->with('success', 'Mpesa Successful');
-        }
-        foreach ($cart_select as $cart_item) {
-            $purchase = new Purchase;
-
-
-            $purchase->session_id = $cart_item->session_id;
-            $purchase->product_id = $cart_item->product_id;
-            $purchase->product_name = $cart_item->product_name;
-            $purchase->product_desc = $cart_item->product_desc;
-            $purchase->user_id = auth()->user()->id; //the user id will be added
-            $purchase->qty = $cart_item->qty;
-            $purchase->price = $cart_item->price;
-            $purchase->total_price = $cart_item->total_price;
-            $purchase->cover_image = $cart_item->cover_image;
-            $purchase->farmer_id = $cart_item->user_id;
-            $purchase->location = $cart_item->location;
-
-            $purchase->save();
-        }
-        //deletes cart entries of the specific user logged in
-        Cart::where('user_id', $user_id)->delete();
-
-        return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
-
-
-    }
-
     /**
      * Display the specified resource.
      *
