@@ -21,6 +21,7 @@ Route::resource('carts','CartsController');
 Route::resource('maps','MapsController');
 Route::resource('directions','DirectionsController');
 Route::resource('harvestlosses','HarvestlossesController');
+Route::resource('purchases', 'PurchasesController');
 
 //Route::get('/',function(){
    

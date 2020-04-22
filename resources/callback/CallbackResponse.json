@@ -1,0 +1,30 @@
+{
+    "Body": {
+        "stkCallback": {
+            "MerchantRequestID": "24873-23177201-1",
+            "CheckoutRequestID": "ws_CO_220420200131358683",
+            "ResultCode": 1032,
+            "ResultDesc": "Request cancelled by user"
+        }
+    }
+}
+{
+    "Body": {
+        "stkCallback": {
+            "MerchantRequestID": "24456-2587665-1",
+            "CheckoutRequestID": "ws_CO_220420201449026300",
+            "ResultCode": 1032,
+            "ResultDesc": "Request cancelled by user"
+        }
+    }
+}
+    {
+    "Body": {
+        "stkCallback": {
+            "MerchantRequestID": "18638-16283761-1",
+            "CheckoutRequestID": "ws_CO_220420201456040199",
+            "ResultCode": 1032,
+            "ResultDesc": "Request cancelled by user"
+        }
+    }
+}

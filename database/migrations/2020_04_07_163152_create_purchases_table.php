@@ -24,7 +24,6 @@ class CreatePurchasesTable extends Migration
             $table->integer('user_id');
             $table->integer('qty')->default( 0 );
             $table->integer('price');
-            $table->string('location');
 
         });
     }

@@ -1,7 +1,7 @@
 @extends ('layouts.app') 
 @section ('content')
 <div class="container">
-    <h1>Items In Cart</h1>
+    <h1>Order Status</h1>
     <div class="row">
         <div class="col-sm-12 col-md-10 col-md-offset-1">
             <table class="table table-hover">
@@ -11,6 +11,7 @@
                         <th>Quantity</th>
                         <th class="text-center">Price</th>
                         <th class="text-center">Total</th>
+                        <th class="text-center">Order status</(
                         <th> </th>
                     </tr>
                 </thead>
