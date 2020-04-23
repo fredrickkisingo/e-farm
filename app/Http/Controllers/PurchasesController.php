@@ -78,11 +78,11 @@ class PurchasesController extends Controller
         
         if(isset($response->MerchantRequestID)){
 
-          $MerchantRequestID = $response['MerchantRequestID'];
-          $CheckoutRequestID = $response['CheckoutRequestID'];
-          $ResponseCode = $response['ResponseCode'];
-          $ResponseDescription = $response['ResponseDescription'];
-          $CustomerMessage = $response['CustomerMessage'];
+          $MerchantRequestID = $response->MerchantRequestID;
+          $CheckoutRequestID = $response->CheckoutRequestID;
+          $ResponseCode = $response->ResponseCode;
+          $ResponseDescription = $response->ResponseDescription;
+          $CustomerMessage = $response->CustomerMessage;
                         
           switch($response->ResponseCode){
 
