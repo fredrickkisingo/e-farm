@@ -62,73 +62,71 @@ class PurchasesController extends Controller
                 $purchase->farmer_id = $cart_item->farmer_id;
                 $purchase->save();
             }
-            if (Cart::where('user_id', '=', $user_id)->exists()) {
+
+        if (Cart::where('user_id', '=', $user_id)->exists()) {
                     $cart_price= new Cart;
                     $entry = Cart::where(['user_id' => $user_id])->pluck('total_price')->sum();
-    
-                
                    //here is where we are executing the mpesa payment
-                    $phone_num= $request->input('phone_number');
-    
-                    $pesa=Mpesa::express($entry,$phone_num,'Cart products payment','Testing Payment');
-                    //decode response to array
-                    $decode = json_decode($pesa,true);
-                    //here check if there was an error with the checkout request
-                    if(empty($decode['requestId'])){
+                    $phone_num = $request->input('phone_number');
+            /*
+                Here the Request has been sent for processing to MPESA now you are checking whether it was successful or it failed
+            */
 
-                        $MerchantRequestID = $decode['MerchantRequestID'];
-                        $CheckoutRequestID = $decode['CheckoutRequestID'];
-                        $ResponseCode = $decode['ResponseCode'];
-                        $ResponseDescription = $decode['ResponseDescription'];
-                        $CustomerMessage = $decode['CustomerMessage'];
-                        
-                        /*
-                        ideally here you should store the payment status on the
-                         database since the request was successful
-                         */
+            $pesa      = Mpesa::express($entry,$phone_num,'Cart products payment','Testing Payment');
+            $response  = json_decode($pesa);
+            //check if the Payment was Successful...
+        
+        if(isset($response->MerchantRequestID)){
 
+          $MerchantRequestID = $response['MerchantRequestID'];
+          $CheckoutRequestID = $response['CheckoutRequestID'];
+          $ResponseCode = $response['ResponseCode'];
+          $ResponseDescription = $response['ResponseDescription'];
+          $CustomerMessage = $response['CustomerMessage'];
                         
+          switch($response->ResponseCode){
+
+            case 0:
+            /*
+            Here insert the payment data to the mpesa table
+            also update the order status to maybe confirmation or something else i dont
+            know how you do it on your end
+            */
+
+            return 0;
+
+            break;
+
+          }
+
+        }else{
+        //Here the Payment failed. Either the Telephone Number was invalid or something else.
+          
+          if($response->requestId){
+
+                    $requestId    = $response->requestId;
+                    $errorCode    = $response->errorCode;
+                    $errorMessage = $response->errorMessage;
                     
-                        return redirect('/posts')->with('success','Success.Request accepted for processing');
-                        
-                    }
-                    //here the payment failed... so we should notify the user that they should retry
-                    $requestId = $decode['requestId'];
-                    $errorCode = $decode['errorCode'];
-                    $errorMessage = $decode['errorMessage'];
-                    
-                    //here you update the payment status in the database with the errorMessage
-                    return $errorMessage;
-            }
-                $responseMpesa=Mpesa::lnmo_query();
-                $decoded = json_decode($responseMpesa);
-
-                //capture the payment data in variables...
-                $resultCode = $decoded->Body->stkCallback->ResultCode;
-                $resultDesc = $decoded->Body->stkCallback->ResultDesc;
-                $CheckoutRequestID = $decoded->Body->stkCallback->CheckoutRequestID;
-                $MerchantRequestID = $decoded->Body->stkCallback->MerchantRequestID;
-
-                //Callback Meta Data...
-                $CallbackMetadata = $decoded->Body->stkCallback->CallbackMetadata;
-
-                foreach($CallbackMetadata as $key=>$value){
-
-                $Amount             = $value['0']->Value;// Payment Amount..
-                $mpesaRef            = $value['1']->Value;// Payment Referrence MPESA
-                $mpesaPhoneNumber   = $value['4']->Value;// Payment Phone Number
+                /*
+                Failed payment request....
+                update the Order status here and the Payment status on the MPESA Payments table.
+                */
+                return 1;
 
                 }
 
-            
-          
-            //deletes cart entries of the specific user logged in
-            Cart::where('user_id', $user_id)->delete();
-    
-            return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
-    
-    
+            }
+     
         }
+          
+        //deletes cart entries of the specific user logged in
+        Cart::where('user_id', $user_id)->delete();
+    
+        return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
+    
+    
+}
     /**
      * Display the specified resource.
      *
