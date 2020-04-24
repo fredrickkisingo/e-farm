@@ -46,6 +46,7 @@ class PurchasesController extends Controller
     
             $cart_select= Cart::where('user_id',$user_id)->get();
     
+           //here we are saving the cart items purchased by the user into the purchases table
             foreach ($cart_select as $cart_item) {
                
                 $purchase = new Purchase;
