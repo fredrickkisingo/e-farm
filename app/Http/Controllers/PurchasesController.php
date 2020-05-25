@@ -10,6 +10,10 @@ use App\Purchase;
 use Gathuku\Mpesa\Facades\Mpesa;
 use Session;
 use App\Post;
+use App\MpesaPayment;
+use Illuminate\Support\Facades\Log;
+use App\StkPush;
+use App\Stk_push_payments;
 
 
 class PurchasesController extends Controller
@@ -21,7 +25,7 @@ class PurchasesController extends Controller
      */
     public function index()
     {
-        //
+      //
     }
 
     /**
@@ -40,6 +44,14 @@ class PurchasesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+        
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
     public function store(Request $request)
     {
             $user_id = auth()->user()->id;//this is to allow the mpesa transaction to take place for the cart contents of that specific user
@@ -74,9 +86,15 @@ class PurchasesController extends Controller
             */
 
             $pesa      = Mpesa::express($entry,$phone_num,'Cart products payment','Testing Payment');
-            $response  = json_decode($pesa);
-            //check if the Payment was Successful...
-        
+             $response  = json_decode($pesa);
+
+            
+           
+
+          
+               
+         //  check if the Payment was Successful...
+         
         if(isset($response->MerchantRequestID)){
 
           $MerchantRequestID = $response->MerchantRequestID;
@@ -84,6 +102,33 @@ class PurchasesController extends Controller
           $ResponseCode = $response->ResponseCode;
           $ResponseDescription = $response->ResponseDescription;
           $CustomerMessage = $response->CustomerMessage;
+
+          $decoded =json_encode($response,true);
+
+          //capture the payment data in variables
+          
+          $MerchantRequestID = $decoded->Body->stkCallback->MerchantRequestID;
+          $CheckoutRequestID=$decoded->Body->stkCallback->CheckoutRequestID;
+          $resultCode =$decoded->Body->stkCallback->ResultCode;
+          $resultDesc=$decoded->Body->stkCallback->ResultDesc;
+
+          //Callback Metadata
+          $CallbackMetadata= $decoded->$decoded->Body->stkCallback->CallbackMetadata;
+
+          foreach($CallbackMetadata as $key=>$value);{
+          $Amount =$value['0']->Value;//Payment Amount
+          $mpesaRef =$value['1']->Value;//payment refference number
+          $mpesaPhoneNumber =$value['4']->Value;////payment phone number
+        }
+
+          
+            
+           
+           
+            
+
+
+               
                         
           switch($response->ResponseCode){
 
@@ -94,8 +139,16 @@ class PurchasesController extends Controller
             know how you do it on your end
             */
 
-            return 0;
+            
 
+            $succ = new MpesaPayment;
+
+            $succ->CheckoutRequestID= $CheckoutRequestID;
+            $succ->merchantrequest_i_d= $MerchantRequestID;
+            $succ->ResultDesc=$ResponseDescription;
+            $succ->ResponseCode=$ResponseCode;
+            
+            return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
             break;
 
           }
@@ -127,17 +180,11 @@ class PurchasesController extends Controller
         return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
     
     
-}
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    }
     public function show($id)
     {
         //
-    }
+     }
 
     /**
      * Show the form for editing the specified resource.
