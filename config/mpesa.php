@@ -56,8 +56,7 @@ return [
     |Lipa na Mpesa Online callback url
     |------------------------------------------
     */
-    'lnmocallback' => 'http://26892313.ngrok.io/lsapp/resources/callback/callback_url.php',
-    // 'lnmocallback' => '../resources/callback/callback_url.php',
+    'lnmocallback' => ' http://7f2d967b01a0.ngrok.io/api/stkcallback',
 
      /*-----------------------------------------
     |C2B  Validation url

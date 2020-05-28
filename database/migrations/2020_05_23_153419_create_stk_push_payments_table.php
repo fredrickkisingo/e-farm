@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMpesaPaymentsTable extends Migration
+class CreateStkPushPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateMpesaPaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('mpesa_payments', function (Blueprint $table) {
+        Schema::create('stk_push_payments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->integer('PhoneNumber');
-            $table->double('amount',8,2);
+            $table->string('MpesaReceiptNumber')->default('0');
+            $table->string('phonenumber');
+            $table->string('ResultCode');
+            $table->integer('amount')->default(0);
             $table->string('ResultDesc');
-            $table->string('MpesaReceiptNumber');
-            $table->string('CheckoutRequestID');
-            $table->integer('ResultCode');
+            $table->string('status');
+            
         });
     }
 
@@ -32,6 +33,6 @@ class CreateMpesaPaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mpesa_payments');
+        Schema::dropIfExists('stk_push_payments');
     }
 }

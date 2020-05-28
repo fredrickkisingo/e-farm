@@ -29,7 +29,7 @@
             </div>
             <br>
         </div>
-        @endforeach {{-- Pagination connected to the ProductsController --}} {{$posts->links()}} 
+        @endforeach {{-- Pagination connected to the PostsController --}} {{$posts->links()}} 
         @else
         <p>
             No Products Available
