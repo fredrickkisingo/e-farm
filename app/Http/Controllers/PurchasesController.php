@@ -51,7 +51,21 @@ class PurchasesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function receiveStkpushpayments(Request $request){
+        
+           Log::info($request->getContent());
+           $content=$request->all();
+           $stk_push_payment= new Stk_push_payments;
+           $stk_push_payment->content = json_encode($content);
+            $stk_push_payment->save();
 
+               //get the resultcode to determine if the transaction was successful
+               $resultCode = $content['Body']['stkCallback']['ResultCode'];
+               
+
+
+              
+    }
     public function store(Request $request)
     {
             $user_id = auth()->user()->id;//this is to allow the mpesa transaction to take place for the cart contents of that specific user
@@ -87,6 +101,7 @@ class PurchasesController extends Controller
 
             $pesa      = Mpesa::express($entry,$phone_num,'Cart products payment','Testing Payment');
              $response  = json_decode($pesa);
+             
 
             
            
@@ -103,33 +118,8 @@ class PurchasesController extends Controller
           $ResponseDescription = $response->ResponseDescription;
           $CustomerMessage = $response->CustomerMessage;
 
-          $decoded =json_encode($response,true);
 
-          //capture the payment data in variables
-          
-          $MerchantRequestID = $decoded->Body->stkCallback->MerchantRequestID;
-          $CheckoutRequestID=$decoded->Body->stkCallback->CheckoutRequestID;
-          $resultCode =$decoded->Body->stkCallback->ResultCode;
-          $resultDesc=$decoded->Body->stkCallback->ResultDesc;
-
-          //Callback Metadata
-          $CallbackMetadata= $decoded->$decoded->Body->stkCallback->CallbackMetadata;
-
-          foreach($CallbackMetadata as $key=>$value);{
-          $Amount =$value['0']->Value;//Payment Amount
-          $mpesaRef =$value['1']->Value;//payment refference number
-          $mpesaPhoneNumber =$value['4']->Value;////payment phone number
-        }
-
-          
-            
-           
-           
-            
-
-
-               
-                        
+                     
           switch($response->ResponseCode){
 
             case 0:
@@ -147,6 +137,7 @@ class PurchasesController extends Controller
             $succ->merchantrequest_i_d= $MerchantRequestID;
             $succ->ResultDesc=$ResponseDescription;
             $succ->ResponseCode=$ResponseCode;
+            $succ->save();
             
             return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
             break;
@@ -154,7 +145,7 @@ class PurchasesController extends Controller
           }
 
         }else{
-        //Here the Payment failed. Either the Telephone Number was invalid or something else.
+        //Here the Payment failed. Either the Telephone Number was invalid or the first failed request was not cancelled by the user
           
           if($response->requestId){
 
@@ -166,8 +157,7 @@ class PurchasesController extends Controller
                 Failed payment request....
                 update the Order status here and the Payment status on the MPESA Payments table.
                 */
-                return 1;
-
+                return back()->with('error','Try Again');
                 }
 
             }
@@ -181,6 +171,8 @@ class PurchasesController extends Controller
     
     
     }
+
+   
     public function show($id)
     {
         //
