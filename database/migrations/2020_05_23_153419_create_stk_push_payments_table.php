@@ -18,10 +18,12 @@ class CreateStkPushPaymentsTable extends Migration
             $table->timestamps();
             $table->string('MpesaReceiptNumber')->default('0');
             $table->string('phonenumber');
-            $table->string('ResultCode');
             $table->integer('amount')->default(0);
             $table->string('ResultDesc');
-            $table->string('status');
+            $table->string('CheckoutRequestID');
+            $table->string('MerchantRequestID');
+            $table->integer('status')->default(0);
+           
             
         });
     }
