@@ -14,6 +14,7 @@ use App\MpesaPayment;
 use Illuminate\Support\Facades\Log;
 use App\StkPush;
 use App\Stk_push_payments;
+use Illuminate\Support\Facades\Response;
 
 
 class PurchasesController extends Controller
@@ -53,17 +54,84 @@ class PurchasesController extends Controller
      */
     public function receiveStkpushpayments(Request $request){
         
-           Log::info($request->getContent());
-           $content=$request->all();
-           $stk_push_payment= new Stk_push_payments;
-           $stk_push_payment->content = json_encode($content);
-            $stk_push_payment->save();
+           \Log::info($request->getContent()); // will log a copy in logs for that day
+            // convert the json to an array
+            //$stk_push_payments = array();
+            $content = json_decode($request->getContent());
+            
+            $resultCode = $content->Body->stkCallback->ResultCode;
 
-               //get the resultcode to determine if the transaction was successful
-               $resultCode = $content['Body']['stkCallback']['ResultCode'];
-               
+            $tmp = $content->Body->stkCallback;
+            $master = array(); // creating an empty array to store info we need
 
 
+            if($resultCode == 0){
+                //a successful transaction push
+                //save the transactions in stk_push payments table
+                //0- means transaction was successful
+
+                foreach($content->Body->stkCallback->CallbackMetadata->Item as $item){
+                    $item = (array) $item; // type casting ~ read about it
+
+                    $master[$item['Name']] = ((isset($item['Value'])) ? $item['Value'] : NULL);
+                    
+                }
+
+                // Log::info($master); // first
+
+
+                // $master = (object) $master;
+                // $master->ResultCode = $tmp->ResultCode;
+                // $master->MerchantRequestID = $tmp->MerchantRequestID;
+                // $master->CheckoutRequestID = $tmp->CheckoutRequestID;
+                // $master->ResultDesc = $tmp->ResultDesc;
+
+                // Log:info($master);
+
+                
+            //     $CallbackMetadata = $content->Body->stkCallback->CallbackMetadata;
+            //     $Amount;
+            //     $mpesaRef;
+            //     $mpesaPhoneNumber;
+            //     foreach($CallbackMetadata as $key=>$value){
+            //           $Amount             = $value['0']->Value;// Payment Amount..
+            //           $mpesaRef            = $value['1']->Value;// Payment Referrence MPESA
+            //           $mpesaPhoneNumber   = $value['4']->Value;// Payment Phone Number
+            //     }
+
+            //    // $stk_push_payments = (object) $stk_push_payments;
+
+
+
+                
+                // saving the information into the table in MySQL    
+                $stk_push_payments = new Stk_push_payments; 
+                $stk_push_payments->amount=$master['Amount'];
+                $stk_push_payments->phonenumber= $master['PhoneNumber'];
+                $stk_push_payments->MpesaReceiptNumber=$master['MpesaReceiptNumber'];
+                $stk_push_payments->status = 0;
+                     
+            //     //okay
+            //     $stk_push_payments->ResultCode = $content['Body']['stkCallback']['ResultCode'];
+            //     $stk_push_payments->ResultDesc = $content['Body']['stkCallback']['ResultDesc'];
+            //     $stk_push_payments->status = 0;
+
+                $stk_push_payments->save();
+                
+
+               }else{
+                //transaction failed for some reason
+                //1- means failed transaction
+
+               // $stk_push_payments = (object) $stk_push_payments;
+                
+                $stk_push_payments = new Stk_push_payments;
+                $stk_push_payments->ResultCode = $master['Body']['stkCallback']['ResultCode'];
+                $stk_push_payments->ResultDesc = $master['Body']['stkCallback']['ResultDesc'];
+                $stk_push_payments->status = 1;
+                $stk_push_payments->save();
+    
+            }
               
     }
     public function store(Request $request)
@@ -138,7 +206,10 @@ class PurchasesController extends Controller
             $succ->ResultDesc=$ResponseDescription;
             $succ->ResponseCode=$ResponseCode;
             $succ->save();
-            
+
+            //deletes cart entries of the specific user logged in
+           // Cart::where('user_id', $user_id)->delete();
+
             return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
             break;
 
@@ -164,8 +235,7 @@ class PurchasesController extends Controller
      
         }
           
-        //deletes cart entries of the specific user logged in
-        Cart::where('user_id', $user_id)->delete();
+        
     
         return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
     
