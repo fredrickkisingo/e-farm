@@ -22,7 +22,7 @@ class CreateStkPushPaymentsTable extends Migration
             $table->string('ResultDesc');
             $table->string('CheckoutRequestID');
             $table->string('MerchantRequestID');
-            $table->integer('status')->default(0);
+            $table->string('status');
            
             
         });

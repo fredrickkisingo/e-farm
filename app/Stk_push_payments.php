@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stk_push_payments extends Model
 {
-    //
+    // public function user(){
+    //     return $this->belongsTo('App\User');
+    // }
 }

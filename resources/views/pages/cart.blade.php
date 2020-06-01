@@ -5,19 +5,21 @@
     <div class="row">
         <div class="col-sm-12 col-md-10 col-md-offset-1">
             <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th class="text-center">Price</th>
-                        <th class="text-center">Total</th>
-                        <th> </th>
-                    </tr>
-                </thead>
+                
                 <tbody>
                     @if(count($carts)>0) 
                     @foreach ($carts as $cart)
-                    {{-- Displays titles on the post table --}}
+
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Total</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    {{-- Displays the cart items --}}
                     <tr>
                         <td class="col-sm-8 col-md-6">
                             <div class="media">

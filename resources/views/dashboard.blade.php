@@ -21,7 +21,7 @@
                         @if(count($posts)> 0)
                                 <table class="table table-stripped">
                                 <tr>
-                                    <th>Title</th>
+                                    <th>Product Name</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -39,29 +39,28 @@
                                     @endforeach
                                 </table>
                                 @else
-                                    <p>You have no products</p>
+                                    <p>You have no products uploaded</p>
                                 @endif
-                    @else
+                         @else
                      
-                        <p>View the products catalogue by clicking the button below!</p>
-                        <a href="/posts" class="btn btn-primary">Products</a>  
-                        @if(count($purchases)>0)
-                                <div class="row">
-                                    <h3>Here are Your Past Purchases</h3>
+                            <p>View the products catalogue by clicking the button below!</p>
+                            <a href="/posts" class="btn btn-primary">Products</a>  
+                            <h3>Here are Your Past Purchases</h3>
+                                  <div class="row">
                                     <div class="col-sm-12 col-md-10 col-md-offset-1">
                                         <table class="table table-hover">
-                                            <thead>
-                                                        <tr>
-                                                            <th>Product</th>
-                                                            <th>Quantity</th>
-                                                            <th class="text-center">Price</th>
-                                                            <th class="text-center">Total</th>
-                                                            <th></th>
-                                                        </tr>
-                                            </thead>        
-                                                <tbody>
-                                                    
-                                                        @foreach ($purchases as $purchase) {{-- Displays titles on the post table --}}
+                                                           <tbody>
+                                                             @if(count($purchases)>0)@foreach ($purchases as $purchase) {{-- Displays titles on the post table --}}
+                                                             <thead>
+                                                                <tr>
+                                                                    <th>Product</th>
+                                                                    <th>Quantity</th>
+                                                                    <th class="text-center">Price</th>
+                                                                    <th class="text-center">Total</th>
+                                                                  
+                                                                
+                                                                </tr>
+                                                         </thead>  
                                                                 <tr>
                                                                     <td class="col-sm-8 col-md-6">
                                                                         <div class="media">
@@ -74,20 +73,21 @@
                                                                         <td class="col-sm-1 col-md-1 text-center"><strong>{{$purchase->qty}}</strong></td>
                                                                         <td class="col-sm-1 col-md-1 text-center"><strong>KSH {{$purchase->price}}</strong></td>
                                                                         <td class="col-sm-1 col-md-1 text-center"><strong>KSH {{$purchase->price*$purchase->qty}}</strong></td>
+                                                                      {{-- /  <td class="col-sm-1 col-md-1 text-center"><strong>{{$stk_push_payments->status}}</strong></td> --}}
                                                                         <td class="col-sm-1 col-md-1">
                                                                         {!!Form::open(['action'=>['PurchasesController@destroy',$purchase->product_id],'method'=>'POST'])!!}{{Form::hidden('_method','DELETE')}}
                                                                             {{Form::submit('Remove', ['class'=>'btn btn-danger'])}} {!!Form::close()!!}
-                                                                        </td>
-                                                                </tr>
-                                                        @endforeach
-                                                @else
-                                                    <p>No Purchase history</p>
-                                             @endif
-                                        </tbody>
+                                                                        </td>                                                          
+                                                                     </tr>
+                                                                 @endforeach
+                                                                     @else
+                                                                         <p>No Purchase history</p>
+                                                                    @endif
+                                                         </tbody>
                                 </table>
                              </div>  
                             </div>
-                          @endif
+                         @endif
                    
             </div>
         </div>

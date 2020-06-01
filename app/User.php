@@ -41,8 +41,16 @@ class User extends \TCG\Voyager\Models\User
      public function posts(){
         return $this->hasMany('App\Post');
       }
+      //a user has many carts
       public function carts(){
           return $this->hasMany('App\Cart');
       }
-}
-//a user has many carts
+      public function purchases(){
+        return $this->hasMany('App\Purchase');
+      }
+
+    //   public function Stk_push_payments(){
+    //     return $this->hasMany('App\Stk_push_payments');
+    //   }
+    }
+

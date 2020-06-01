@@ -95,7 +95,7 @@ class PurchasesController extends Controller
                 $stk_push_payments->CheckoutRequestID=$servant['CheckoutRequestID'];
                 $stk_push_payments->MerchantRequestID=$servant['MerchantRequestID'];
                 $stk_push_payments->ResultDesc = $servant['ResultDesc'];
-                $stk_push_payments->status = 0;
+                $stk_push_payments->status = 'successful';
                 $stk_push_payments->save();
 
 
@@ -107,7 +107,7 @@ class PurchasesController extends Controller
                 $servant['CheckoutRequestID'] =($tmp->CheckoutRequestID);
                 $servant['MerchantRequestID']= ($tmp->MerchantRequestID);
 
-                //saving the failed callback response to the  stk push payments tables
+                //saving the failed callback response  thats a result of a user cancelling the stk push to the  stk push payments tables
                 
                 
                 $stk_push_payments = new Stk_push_payments;
@@ -117,7 +117,7 @@ class PurchasesController extends Controller
                 $stk_push_payments->amount=0;
                 $stk_push_payments->phonenumber=0;
                 $stk_push_payments->MpesaReceiptNumber=0;
-                 $stk_push_payments->status = 1;
+                 $stk_push_payments->status = 'failed';
                 $stk_push_payments->save();
 
            
@@ -128,6 +128,26 @@ class PurchasesController extends Controller
     public function store(Request $request)
     {
             $user_id = auth()->user()->id;//this is to allow the mpesa transaction to take place for the cart contents of that specific user
+
+            $cart_select= Cart::where('user_id',$user_id)->get();
+    
+            //here we are saving the cart items purchased by the user into the purchases table
+                     foreach ($cart_select as $cart_item) {
+                     
+                         $purchase = new Purchase;
+             
+             
+                         $purchase->session_id = $cart_item->session_id;
+                         $purchase->product_id = $cart_item->product_id;
+                         $purchase->product_name = $cart_item->product_name;
+                         $purchase->product_desc = $cart_item->product_desc;
+                         $purchase->user_id = auth()->user()->id; //the user id will be added
+                         $purchase->qty = $cart_item->qty;
+                         $purchase->price = $cart_item->price;
+                         $purchase->total_price = $cart_item->total_price;
+                         $purchase->farmer_id = $cart_item->farmer_id;
+                         $purchase->save();
+                     }
     
            
 
@@ -181,25 +201,7 @@ class PurchasesController extends Controller
             $succ->save();
 
 
-            $cart_select= Cart::where('user_id',$user_id)->get();
-    
-            //here we are saving the cart items purchased by the user into the purchases table
-                     foreach ($cart_select as $cart_item) {
-                     
-                         $purchase = new Purchase;
-             
-             
-                         $purchase->session_id = $cart_item->session_id;
-                         $purchase->product_id = $cart_item->product_id;
-                         $purchase->product_name = $cart_item->product_name;
-                         $purchase->product_desc = $cart_item->product_desc;
-                         $purchase->user_id = auth()->user()->id; //the user id will be added
-                         $purchase->qty = $cart_item->qty;
-                         $purchase->price = $cart_item->price;
-                         $purchase->total_price = $cart_item->total_price;
-                         $purchase->farmer_id = $cart_item->farmer_id;
-                         $purchase->save();
-                     }
+           
 
             //deletes cart entries of the specific user logged in
             Cart::where('user_id', $user_id)->delete();
