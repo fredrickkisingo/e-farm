@@ -64,7 +64,7 @@
                      {!! Form::open(['action'=> 'PurchasesController@store', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    {{Form::label('phone_number','My Phone Number(254..)')}} {{Form::text('phone_number', '', ['class'=>'form-control ', 'placeholder'=>'Phone Number'])}}
+                                    {{Form::label('phone_number','My Phone Number(254..)')}} {{Form::text('phone_number', '', ['class'=>'form-control ', 'placeholder'=>'Phone Number','maxlength'=>'13'])}}
                                 </div>
                             </div>
                     

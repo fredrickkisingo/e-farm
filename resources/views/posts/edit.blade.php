@@ -21,7 +21,7 @@
       </div>
         <div class="form-group col-md-6">
           {{Form::label('phone_number','My Phone Number')}} 
-          {{Form::text('phone_number', $post->phone_number, ['class'=>'form-control ', 'placeholder'=>'Phone Number'])}}
+          {{Form::text('phone_number', $post->phone_number, ['class'=>'form-control ', 'placeholder'=>'Phone Number','maxlength'=>'13'])}}
         </div>
         <div class="form-group">
           {{Form::file('cover_image')}}
