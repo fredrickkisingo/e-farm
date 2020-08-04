@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@include('inc.slider');
+@include('inc.slider')
 <div class="jumbotron text-center">
   
   {{--this is the main index page--}}
@@ -13,7 +13,7 @@
 
  </div>
   <footer>
-    <p>Copyright &copy;2020,Fredrick Kisingo</p>
+    <p>Copyright &copy;2020Fredrick Kisingo</p>
   </footer>
   @endsection   
 

@@ -8,7 +8,7 @@
   <div class="card"> 
     <div class="row">
       <aside class="col-sm-5">
-        <a href="#"><img class="img-fluid" style="max-width:100%; max-height:100%;" src="/storage/cover_images/{{$post->cover_image}}" ></a>
+       <img class="img-fluid" style="max-width:100%; max-height:100%;" src="/storage/cover_images/{{$post->cover_image}}" >
           <!-- gallery-wrap .end// -->
        </aside>
        <aside class="col-sm-7">
