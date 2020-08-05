@@ -15,6 +15,7 @@ class Cart extends Model
     }
     public static function boot()
     {
+        //this initializes to 0
         parent::boot();
         self::creating(function ($mymodel) {
             $mymodel->total_price = $mymodel->qty * $mymodel->price;

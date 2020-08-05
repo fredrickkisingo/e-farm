@@ -91,12 +91,11 @@ class CartsController extends Controller
         $post_select = Post::find($id); //finding the product selected based on its id
 
         if (Cart::where('session_id', '=', $session_id)->exists()) {
-            //Check whether product exist if yes increase quantity`
+            //Check whether product exist if yes increase quantity` the 2 $entry working concurrently
             $entry = Cart::where(['session_id' => $session_id, 'product_id' => $id])->increment('qty', 1);
             $entry = DB::update("UPDATE carts SET total_price=price* qty "); //update total_price column
 
-            // $entry = Cart::where(['session_id' => $session_id, 'post_id' => $id])->increment('total_price', '`total_price`');
-
+     //"if entry" checks if there exists any cart items already  and if there is not it will create a new cart the first if statement had already failed
             if (!$entry) {
 
                 $cart_item = new Cart;
@@ -120,11 +119,13 @@ class CartsController extends Controller
         } else {
             $cart_item = new Cart;
 
-            //adding selected item into cart
+            //adding selected item into an existing cart
             $cart_item->session_id = $session_id;
             $cart_item->product_id = $post_select->id;
             $cart_item->product_name = $post_select->title;
             $cart_item->product_desc = $post_select->body;
+            $cart_item->location = $post_select->location;
+
             $cart_item->user_id = auth()->user()->id; //the user id will be added
             $cart_item->qty = 1;
             $cart_item->price = $post_select->products_price;

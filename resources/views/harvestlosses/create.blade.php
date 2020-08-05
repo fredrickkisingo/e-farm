@@ -10,7 +10,7 @@
         text has the text name associated with what will be entered in the second parameter (empty because user must provide),
         then the third is the attribute of that text or textarea etc using bootstrap --}} 
         {{Form::label('title','Post Title')}} 
-        {{Form::text('title', '', ['id'=> 'article-ckeditor','class'=>'form-control', 'placeholder'=>'Post Title'])}}
+        {{Form::text('title', '', ['id'=>','class'=>'form-control', 'placeholder'=>'Post Title'])}}
         </div>
        
   </div>
@@ -18,7 +18,7 @@
             {{Form::label('body','Post Description')}} 
             {{Form::textarea('body', '', [ 'id'=> 'article-ckeditor','class'=>'form-control','placeholder'=>'Post Description'])}}
         </div>
-  {{Form::submit('Submit', ['class'=>'btn btn-primary'])}} {!! Form::close() !!}
+  {{Form::submit('Post', ['class'=>'btn btn-primary'])}} {!! Form::close() !!}
   @else
   <p>You cannot create a blog</p>
   @endif

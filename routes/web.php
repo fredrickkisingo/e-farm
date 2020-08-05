@@ -58,9 +58,48 @@ Route::resource('purchases', 'PurchasesController');
 
 Auth::routes();
 
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
+
 Route::get('/dashboard', 'DashboardController@index');
 
 
-Route::group(['prefix' => 'dashboard'], function () {
-    Voyager::routes();
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

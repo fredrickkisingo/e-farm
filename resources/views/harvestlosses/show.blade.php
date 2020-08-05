@@ -32,11 +32,11 @@
                   {{Form::submit('Delete', ['class'=>'btn btn-danger'])}} 
                   {!!Form::close()!!} 
                   
-                @endif 
+                @endif
     
              <!-- Adds the buy and call buttons user is guest/not logged in -->
               @else
-                <a href="/login" class="btn text-uppercase btn-info">Login to Start Reading about post harvest losses mitigation</a>
+                <a href="/login" class="btn btn-danger">Login to Start Reading about post harvest losses mitigation</a>
               @endif 
             </article>
             <!-- card-body.// -->
