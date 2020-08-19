@@ -28,6 +28,10 @@ Route::resource('purchases', 'PurchasesController');
 
 Auth::routes();
 
+Route::get('/admin/dashboard',function(){
+    return view('admin.dashboard');
+});
+
 
     Route::get('/json', function(){
         $json = file_get_contents(storage_path('CallbackResponse.json'));
@@ -51,6 +55,9 @@ Auth::routes();
         DB::table('mpesa_pay')->insert($res);
         // return views();
         dd("Finished adding data in examples table");
+
+
+            
     });
 
    
