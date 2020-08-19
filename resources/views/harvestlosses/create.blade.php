@@ -10,7 +10,7 @@
         text has the text name associated with what will be entered in the second parameter (empty because user must provide),
         then the third is the attribute of that text or textarea etc using bootstrap --}} 
         {{Form::label('title','Post Title')}} 
-        {{Form::text('title', '', ['id'=>','class'=>'form-control', 'placeholder'=>'Post Title'])}}
+        {{Form::text('title', '', ['class'=>'form-control', 'placeholder'=>'Post Title'])}}
         </div>
        
   </div>

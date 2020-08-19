@@ -13,7 +13,7 @@
         {{Form::text('title', '', ['class'=>'form-control', 'placeholder'=>'Product Name'])}}
       </div>
       <div class="form-group col-md-6">
-        {{Form::label('product_price','Price (KSH)')}} 
+        {{Form::label('product_price','Price per kg (KSH)')}} 
         {{Form::text('product_price', '', ['class'=>'form-control ', 'placeholder'=>'Price (KSH)'])}}
       </div>
       <div class="form-group col-md-6">

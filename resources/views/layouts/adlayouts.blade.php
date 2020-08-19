@@ -31,11 +31,11 @@
     <div class="sidebar" data-color="orange">
       <!-- Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow" -->
       <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-          CT
+        <a class="simple-text logo-mini">
+          A
         </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Creative Tim
+        <a href="" class="simple-text logo-normal">
+          Administrator 
         </a>
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
@@ -47,53 +47,26 @@
             </a>
           </li>
           <li>
-            <a href="./icons.html">
+            <a href="">
               <i class="now-ui-icons education_atom"></i>
               <p>Icons</p>
             </a>
           </li>
           <li class="{{ 'service-category'==request()->path() ? 'active': ''}}">
-            <a href="{{url('service-category')}}">
+            <a href="">
               <i class="now-ui-icons location_map-big"></i>
               <p>Services -Category</p>
-            </a>
-          </li>
-          <li class="{{ 'service-list'==request()->path() ? 'active': ''}}">
-            <a href="{{url('service-list')}}">
-              <i class="now-ui-icons location_map-big"></i>
-              <p>Services -Category-List</p>
-            </a>
-          </li>
-          <li class="{{ 'abouts'==request()->path() ? 'active': ''}}">
-            <a href="/abouts">
-              <i class="now-ui-icons ui-1_bell-53"></i>
-              <p>About Us</p>
             </a>
           </li>
           <li class="{{ 'admin/role-register'==request()->path() ? 'active': ''}}">
             <a href="/admin/role-register">
               <i class="now-ui-icons users_single-02"></i>
-              <p>User Profile</p>
+              <p>User Profiles</p>
             </a>
           </li>
-        <li class="{{ './tables.html'==request()->path() ? 'active': ''}}">
-            <a href="./tables.html">
-              <i class="now-ui-icons design_bullet-list-67"></i>
-              <p>Table List</p>
-            </a>
-          </li>
-          <li>
-            <a href="./typography.html">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-              <p>Upgrade to PRO</p>
-            </a>
-          </li>
+       
+          
+         
         </ul>
       </div>
     </div>
@@ -152,6 +125,8 @@
                     @if(Auth::user()->role_id==3)
                     <a class="dropdown-item" href="products/create">Add Product</a>
                     @endif
+                    <a class="dropdown-item" href="/">Go to Home Page</a>
+
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf

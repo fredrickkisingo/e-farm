@@ -60,6 +60,7 @@
                             @endif
                             @if(Auth::user()->role_id==1)
                             <a href="/harvestlosses/create" class="dropdown-item">Add A blog post</a>
+                            <a href="/admin/dashboard" class="dropdown-item">Go to Admin Panel</a>
                             @endif
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();

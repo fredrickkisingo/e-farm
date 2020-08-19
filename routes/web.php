@@ -28,11 +28,24 @@ Route::resource('purchases', 'PurchasesController');
 
 Auth::routes();
 
+//admin dashboard routes
+
+Route::group(['middleware'=>['auth','admin']],function(){
+
 Route::get('/admin/dashboard',function(){
     return view('admin.dashboard');
 });
 
+Route::get('admin/role-register','Admin\DashboardController@register');
+Route::get('/role-edit/{id}','Admin\DashboardController@registeredit');
+Route::put('/role-register-update/{id}','Admin\DashboardController@registerupdate');
+Route::delete('/role-delete/{id}','Admin\DashboardController@registerdelete');
 
+
+
+});
+
+//mpesa functions routes
     Route::get('/json', function(){
         $json = file_get_contents(storage_path('CallbackResponse.json'));
         $CallbackMetadata = json_decode($json,true);

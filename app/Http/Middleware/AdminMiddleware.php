@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
@@ -23,6 +24,6 @@ class AdminMiddleware
                 return redirect('/dashboard')->with('status','You are Not Allowed To Access the  Admin Dashboard');
         }
      
-    }
+    
     }
 }

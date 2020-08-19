@@ -12,7 +12,7 @@ Dashboard |E-Farm Admin
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title"> Simple Table</h4>
+          <h4 class="card-title"> Welcome to E-FARM Admin Panel</h4>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -28,22 +28,22 @@ Dashboard |E-Farm Admin
                   City
                 </th>
                 <th class="text-right">
-                  Salary
+                 Role
                 </th>
             </thead>
               <tbody>
                 <tr>
                   <td>
-                    Dakota Rice
+                    Fredrick Kisingo
                   </td>
                   <td>
-                    Niger
+                   Kenya
                   </td>
                   <td>
-                    Oud-Turnhout
+                    Mombasa
                   </td>
                   <td class="text-right">
-                    $36,738
+                   Administrator
                   </td>
                 </tr>       
                

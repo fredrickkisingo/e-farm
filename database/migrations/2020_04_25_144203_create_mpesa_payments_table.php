@@ -17,9 +17,9 @@ class CreateMpesaPaymentsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('ResultDesc');
-            $table->string('MpesaReceiptNumber');
+           // $table->string('MpesaReceiptNumber');
             $table->string('CheckoutRequestID');
-            $table->integer('ResultCode');
+           // $table->integer('ResultCode');
         });
     }
 
