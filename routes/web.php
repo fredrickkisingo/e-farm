@@ -26,6 +26,8 @@ Route::resource('directions','DirectionsController');
 Route::resource('harvestlosses','HarvestlossesController');
 Route::resource('purchases', 'PurchasesController');
 
+Auth::routes();
+
 
     Route::get('/json', function(){
         $json = file_get_contents(storage_path('CallbackResponse.json'));
@@ -56,7 +58,7 @@ Route::resource('purchases', 'PurchasesController');
 
 
 
-Auth::routes();
+
 
 
 

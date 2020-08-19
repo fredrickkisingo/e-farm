@@ -30,6 +30,7 @@
                             <div class="col-md-6">
                                 <select class="form-control m-bot15 {{ $errors->has('farmer_buyer') ? ' is-invalid' : '' }}" name="role">
                                     <option value="select" selected>--Account Type--</option>
+                                    
                                     <option value="3">Farmer</option>
                                     <option value="4">Buyer</option>
                                     
