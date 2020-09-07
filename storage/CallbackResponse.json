@@ -211,4 +211,4 @@
             "ResultDesc": "Request cancelled by user"
         }
     }
-}
+}{"Body":{"stkCallback":{"MerchantRequestID":"16463-111002717-1","CheckoutRequestID":"ws_CO_070920201508595818","ResultCode":1032,"ResultDesc":"Request cancelled by user"}}}

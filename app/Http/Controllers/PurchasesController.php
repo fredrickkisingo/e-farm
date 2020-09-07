@@ -219,13 +219,13 @@ class PurchasesController extends Controller
                     $errorCode    = $response->errorCode;
                     $errorMessage = $response->errorMessage;
 
-                   dd($response);
+                   
                     
                 /*
                 Failed payment request....
                 update the Order status here and the Payment status on the MPESA Payments table.
                 */
-                 //return back()->with('error','Try Again');
+                 return back()->with('error','Try Again');
                 }
 
             }
@@ -279,7 +279,7 @@ class PurchasesController extends Controller
          $purchase_items = Purchase::find($id);
 
          if (auth()->user()->id !== $purchase_items->user_id) {
-             return redirect('/cart')->with('error', 'Unauthorized Access');
+             return redirect('/carts')->with('error', 'Unauthorized Access');
          }
  
          $purchase_items->delete();

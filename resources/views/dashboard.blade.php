@@ -41,7 +41,7 @@
                                 @else
                                     <p>You have no products uploaded</p>
                                 @endif
-                         @else
+                     @else
                      
                             <p>View the products catalogue by clicking the button below!</p>
                             <a href="/posts" class="btn btn-primary">Products</a>  
@@ -75,7 +75,8 @@
                                                                         <td class="col-sm-1 col-md-1 text-center"><strong>KSH {{$purchase->price*$purchase->qty}}</strong></td>
                                                                       {{-- /  <td class="col-sm-1 col-md-1 text-center"><strong>{{$stk_push_payments->status}}</strong></td> --}}
                                                                         <td class="col-sm-1 col-md-1">
-                                                                        {!!Form::open(['action'=>['PurchasesController@destroy',$purchase->product_id],'method'=>'POST'])!!}{{Form::hidden('_method','DELETE')}}
+                                                                        {!!Form::open(['action'=>['PurchasesController@destroy',$purchase->id],'method'=>'POST'])!!}
+                                                                            {{Form::hidden('_method','DELETE')}}
                                                                             {{Form::submit('Remove', ['class'=>'btn btn-danger'])}} {!!Form::close()!!}
                                                                         </td>                                                          
                                                                      </tr>

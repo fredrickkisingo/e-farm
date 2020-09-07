@@ -6,8 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Purchase extends Model
 {
-    public function user()
-    {
+
+    //table name
+    protected $table = 'purchases';
+
+    public function user() {
         return $this->belongsTo('App\User');
     }
+
+   
+
 }
