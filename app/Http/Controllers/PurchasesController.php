@@ -157,7 +157,7 @@ class PurchasesController extends Controller
                    //here is where we are executing the mpesa payment
                     $phone_num = $request->input('phone_number');
             /*
-                Here the Request has been sent for processing to MPESA now you are checking whether it was successful or it failed
+                Here the Request has been sent for processing to MPESA now it's checking whether it was successful or it failed
             */
 
             $pesa      = Mpesa::express($entry,$phone_num,'Cart products payment','Testing Payment');
@@ -186,8 +186,7 @@ class PurchasesController extends Controller
             case 0:
             /*
             Here insert the payment data to the mpesa table
-            also update the order status to maybe confirmation or something else i dont
-            know how you do it on your end
+            also update the order status to maybe confirmation
             */
 
             
@@ -219,12 +218,14 @@ class PurchasesController extends Controller
                     $requestId    = $response->requestId;
                     $errorCode    = $response->errorCode;
                     $errorMessage = $response->errorMessage;
+
+                   dd($response);
                     
                 /*
                 Failed payment request....
                 update the Order status here and the Payment status on the MPESA Payments table.
                 */
-                return back()->with('error','Try Again');
+                 //return back()->with('error','Try Again');
                 }
 
             }
