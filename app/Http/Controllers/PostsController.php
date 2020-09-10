@@ -79,7 +79,7 @@ class PostsController extends Controller
 
             $post->title=$request->input('title');
             $post->body=$request->input('body');
-            //not setting it into a request since we not obtaining it from  a form
+            //not setting it into a request since i'm not obtaining it from  a form
             $post->user_id =auth()->user()->id;
             $post->cover_image =$fileNameToStore;
             $post->products_price=$request->input('product_price');

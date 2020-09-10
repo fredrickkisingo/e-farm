@@ -6,7 +6,7 @@ return [
      * Set trusted proxy IP addresses.
      *
      * Both IPv4 and IPv6 addresses are
-     * supported, along with CIDR notation.
+     * supported, along with CIDR notati
      *
      * The "*" character is syntactic sugar
      * within TrustedProxy to trust any proxy

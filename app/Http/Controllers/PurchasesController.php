@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Cart;
 use App\User;
@@ -52,75 +53,69 @@ class PurchasesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public  function format_lmno($data){
+        //$data is the json encoded pqyload from mpesa.
+           $data = json_decode($data);
+           $tmp = $data->Body->stkCallback;
+           $master = array();
+           if($tmp->ResultCode == 0){
+           foreach($data->Body->stkCallback->CallbackMetadata->Item as $item){
+               $item = (array) $item;
+               $master[$item['Name']] = ((isset($item['Value'])) ? $item['Value'] : NULL);
+
+           }
+           }
+           $master = (object) $master;
+           $master->ResultCode = $tmp->ResultCode;
+           $master->MerchantRequestID = $tmp->MerchantRequestID;
+           $master->CheckoutRequestID = $tmp->CheckoutRequestID;
+           $master->ResultDesc = $tmp->ResultDesc;
+
+           return $master;
+
+}
     public function receiveStkpushpayments(Request $request){
         
-           \Log::info($request->getContent()); // will log a copy in logs for that day
+         \Log::info($request->getContent()); // will log a copy in logs for that day
             
-            //$stk_push_payments = array();
-            $content = json_decode($request->getContent());
+         $data=$this->format_lmno($request->getContent());
             
-            $resultCode = $content->Body->stkCallback->ResultCode;
 
-            $tmp = $content->Body->stkCallback;
-            
-            // convert the json to an array
-            $master = array(); // creating an empty array to store info we need
-            $servant= array();
 
-            if($resultCode == 0){
-                //a successful transaction push
-                //save the transactions in stk_push payments table
-                //0- means transaction was successful
-
-                foreach($content->Body->stkCallback->CallbackMetadata->Item as $item){
-                    $item = (array) $item; // type casting ~ read about it
-
-                    $master[$item['Name']] = ((isset($item['Value'])) ? $item['Value'] : NULL);
-                    
-                }
-
-            
-                $servant['ResultCode']=($tmp->ResultCode);
-                $servant['ResultDesc']=($tmp->ResultDesc);
-                $servant['CheckoutRequestID'] =($tmp->CheckoutRequestID);
-                $servant['MerchantRequestID']= ($tmp->MerchantRequestID);
-
-               
+          
+             if ($data->ResultCode == 0){          
                 
-                // saving the information into the table in MySQL    
+                // saving the information into the table in MySQL  
+                  
                 $stk_push_payments = new Stk_push_payments; 
-                $stk_push_payments->amount=$master['Amount'];
-                $stk_push_payments->phonenumber= $master['PhoneNumber'];
-                $stk_push_payments->MpesaReceiptNumber=$master['MpesaReceiptNumber'];
-                $stk_push_payments->CheckoutRequestID=$servant['CheckoutRequestID'];
-                $stk_push_payments->MerchantRequestID=$servant['MerchantRequestID'];
-                $stk_push_payments->ResultDesc = $servant['ResultDesc'];
+                $stk_push_payments->amount= $data->Amount;
+                $stk_push_payments->phonenumber= $data->PhoneNumber;
+                $stk_push_payments->MpesaReceiptNumber= $data->MpesaReceiptNumber;
+                $stk_push_payments->CheckoutRequestID= $data->CheckoutRequestID;
+                $stk_push_payments->MerchantRequestID= $data->MerchantRequestID;
+                $stk_push_payments->ResultDesc = $data->ResultDesc;
                 $stk_push_payments->status = 'successful';
+                //$stk_push_payments->user_id= auth()->user()->id;
                 $stk_push_payments->save();
 
-
+                return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
                }else{
-                //transaction failed for some reason
-                //1- means failed transaction
-
-                $servant['ResultDesc']=($tmp->ResultDesc);
-                $servant['CheckoutRequestID'] =($tmp->CheckoutRequestID);
-                $servant['MerchantRequestID']= ($tmp->MerchantRequestID);
-
-                //saving the failed callback response  thats a result of a user cancelling the stk push to the  stk push payments tables
+                
                 
                 
                 $stk_push_payments = new Stk_push_payments;
-                $stk_push_payments->ResultDesc = $servant['ResultDesc'];
-                $stk_push_payments->CheckoutRequestID=$servant['CheckoutRequestID'];
-                $stk_push_payments->MerchantRequestID=$servant['MerchantRequestID'];
-                $stk_push_payments->amount=0;
-                $stk_push_payments->phonenumber=0;
-                $stk_push_payments->MpesaReceiptNumber=0;
-                 $stk_push_payments->status = 'failed';
+                $stk_push_payments->ResultDesc = $data->ResultDesc;
+                $stk_push_payments->CheckoutRequestID= $data->CheckoutRequestID;
+                $stk_push_payments->MerchantRequestID= $data->MerchantRequestID;
+                $stk_push_payments->amount='0';
+                $stk_push_payments->phonenumber='0';
+                $stk_push_payments->MpesaReceiptNumber='0';
+                $stk_push_payments->status = 'failed';
+               // $stk_push_payments->user_id = auth()->user()->id;
+
                 $stk_push_payments->save();
 
-           
+                // return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
     
             }
               
@@ -164,7 +159,7 @@ class PurchasesController extends Controller
              $response  = json_decode($pesa);
              
 
-            
+             
            
 
           
@@ -231,11 +226,14 @@ class PurchasesController extends Controller
             }
      
         }
+
+        
           
         
     
         return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
-    
+
+      
     
     }
 

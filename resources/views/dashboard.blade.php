@@ -50,14 +50,15 @@
                                     <div class="col-sm-12 col-md-10 col-md-offset-1">
                                         <table class="table table-hover">
                                                            <tbody>
-                                                             @if(count($purchases)>0)@foreach ($purchases as $purchase) {{-- Displays titles on the post table --}}
+                                                             @if(count($purchases)>0)@foreach ($purchases as $purchase){{-- Displays titles on the post table --}}
                                                              <thead>
                                                                 <tr>
                                                                     <th>Product</th>
                                                                     <th>Quantity</th>
                                                                     <th class="text-center">Price</th>
                                                                     <th class="text-center">Total</th>
-                                                                  
+                                                                    <th class="text-center">Status</th>
+                
                                                                 
                                                                 </tr>
                                                          </thead>  
@@ -73,14 +74,21 @@
                                                                         <td class="col-sm-1 col-md-1 text-center"><strong>{{$purchase->qty}}</strong></td>
                                                                         <td class="col-sm-1 col-md-1 text-center"><strong>KSH {{$purchase->price}}</strong></td>
                                                                         <td class="col-sm-1 col-md-1 text-center"><strong>KSH {{$purchase->price*$purchase->qty}}</strong></td>
-                                                                      {{-- /  <td class="col-sm-1 col-md-1 text-center"><strong>{{$stk_push_payments->status}}</strong></td> --}}
-                                                                        <td class="col-sm-1 col-md-1">
+                                                                       
+                                                                        <td><strong><td> {!! Form::open(['action'=> 'PurchasesController@receiveStkpushpayments', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
+                                                                            {{Form::button('Check paymentstatus', ['type' => 'submit','class'=>'btn btn-primary '])}} 
+                                                                            {!! Form::close() !!} </td></strong></td>
+                                                                      <td class="col-sm-1 col-md-1 ">
                                                                         {!!Form::open(['action'=>['PurchasesController@destroy',$purchase->id],'method'=>'POST'])!!}
                                                                             {{Form::hidden('_method','DELETE')}}
                                                                             {{Form::submit('Remove', ['class'=>'btn btn-danger'])}} {!!Form::close()!!}
                                                                         </td>                                                          
                                                                      </tr>
+                                                                        
                                                                  @endforeach
+                                                                 {{-- @foreach ($stk_push_payments as $stk_push_payments)
+                                                                     <td class="col-sm-1 col-md-1 text-center"><strong>{{$stk_push_payments->status}}</strong></td> 
+                                                                 @endforeach --}}
                                                                      @else
                                                                          <p>No Purchase history</p>
                                                                     @endif

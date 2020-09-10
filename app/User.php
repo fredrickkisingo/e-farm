@@ -37,7 +37,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    //Creates relationship between a farmer and products
+        //Creates relationship between a farmer and products
         //a user has many posts
      public function posts(){
         return $this->hasMany('App\Post');
@@ -50,8 +50,8 @@ class User extends Authenticatable
         return $this->hasMany('App\Purchase');
       }
 
-    //  public function Stk_push_payments(){
-    //     return $this->hasMany('App\Stk_push_payments');
-    //   }
+     public function Stk_push_payments(){
+        return $this->hasMany('App\Stk_push_payments');
+      }
     }
 

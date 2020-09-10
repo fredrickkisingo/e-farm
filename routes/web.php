@@ -18,6 +18,11 @@
 Route::get('/', 'PagesController@index');
 Route::get('/about', 'PagesController@about');
 Route::get('/services', 'PagesController@services');
+Auth::routes();
+
+Route::get('/dashboard', 'DashboardController@index');
+
+
 
 Route::resource('posts', 'PostsController');
 Route::resource('carts','CartsController');
@@ -26,7 +31,38 @@ Route::resource('directions','DirectionsController');
 Route::resource('harvestlosses','HarvestlossesController');
 Route::resource('purchases', 'PurchasesController');
 
-Auth::routes();
+
+
+//mpesa functions routes
+Route::get('/json', function(){
+    $json = file_get_contents(storage_path('CallbackResponse.json'));
+    $CallbackMetadata = json_decode($json,true);
+   
+
+      foreach ($CallbackMetadata as $obj)  {
+      
+        $res = $obj["Body"]["stkCallback"];
+        // dd($res);
+       
+        foreach ($res as $key => $value) {
+            // dd($res);
+            $insertArr[str_slug($key,'_')] = $value;
+
+            // $Amount = $value['0']->Value;// Payment Amount..
+            // $mpesaRef = $value['1']->Value;// Payment Referrence MPESA
+            // $mpesaPhoneNumber = $value['4']->Value;// Payment Phone Number
+        } 
+    }
+    DB::table('mpesa_pay')->insert($res);
+    // return views();
+    dd("Finished adding data in examples table");
+
+
+        
+});
+
+
+
 
 //admin dashboard routes
 
@@ -45,33 +81,7 @@ Route::delete('/role-delete/{id}','Admin\DashboardController@registerdelete');
 
 });
 
-//mpesa functions routes
-    Route::get('/json', function(){
-        $json = file_get_contents(storage_path('CallbackResponse.json'));
-        $CallbackMetadata = json_decode($json,true);
-       
 
-          foreach ($CallbackMetadata as $obj)  {
-          
-            $res = $obj["Body"]["stkCallback"];
-            // dd($res);
-           
-            foreach ($res as $key => $value) {
-                // dd($res);
-                $insertArr[str_slug($key,'_')] = $value;
-
-                // $Amount = $value['0']->Value;// Payment Amount..
-                // $mpesaRef = $value['1']->Value;// Payment Referrence MPESA
-                // $mpesaPhoneNumber = $value['4']->Value;// Payment Phone Number
-            } 
-        }
-        DB::table('mpesa_pay')->insert($res);
-        // return views();
-        dd("Finished adding data in examples table");
-
-
-            
-    });
 
    
 
@@ -84,7 +94,6 @@ Route::delete('/role-delete/{id}','Admin\DashboardController@registerdelete');
 
 
 
-Route::get('/dashboard', 'DashboardController@index');
 
 
 
