@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Products Catalogue</h1>
     <div class="row">
-        {{-- Carries data from the ProductsController with the variable products --}}
+        {{-- Carries data from the ProductsController with the variable posts --}}
          @if(count($posts)>0) 
          @foreach ($posts as  $post) {{-- Displays titles on the post table --}}
         <div class="col-sm-4">
@@ -19,11 +19,7 @@
                     <small>Farmers Name: {{$post->user->name}}</small><br>
                     <small>Location: {{$post->location}}</small><br>
                     <small>Status: </span><span class="text-success"><strong>In Stock</strong></small><br>
-                    <a href="/posts/{{$post->id}}" class="btn btn-primary">More Information</a>
-                    <div class="float-right">
-                        <a href="/directions" class="btn btn-secondary btn-sm" role="button">
-                            <i style='font-size:16px' class='fas'>&#xf3c5;</i>
-                        </a>
+                    c
                     </div>
                 </div>
             </div>

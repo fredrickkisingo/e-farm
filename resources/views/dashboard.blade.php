@@ -75,25 +75,24 @@
                                                                         <td class="col-sm-1 col-md-1 text-center"><strong>KSH {{$purchase->price}}</strong></td>
                                                                         <td class="col-sm-1 col-md-1 text-center"><strong>KSH {{$purchase->price*$purchase->qty}}</strong></td>
                                                                        
-                                                                        <td><strong><td> {!! Form::open(['action'=> 'PurchasesController@receiveStkpushpayments', 'method'=>'POST', 'enctype'=>'multipart/form-data']) !!}
-                                                                            {{Form::button('Check paymentstatus', ['type' => 'submit','class'=>'btn btn-primary '])}} 
-                                                                            {!! Form::close() !!} </td></strong></td>
+                                                                        
                                                                       <td class="col-sm-1 col-md-1 ">
-                                                                        {!!Form::open(['action'=>['PurchasesController@destroy',$purchase->id],'method'=>'POST'])!!}
+                                                                          <td>
+                                                                             {!!Form::open(['action'=>['PurchasesController@destroy',$purchase->id],'method'=>'POST'])!!}
                                                                             {{Form::hidden('_method','DELETE')}}
                                                                             {{Form::submit('Remove', ['class'=>'btn btn-danger'])}} {!!Form::close()!!}
                                                                         </td>                                                          
                                                                      </tr>
                                                                         
                                                                  @endforeach
-                                                                 {{-- @foreach ($stk_push_payments as $stk_push_payments)
-                                                                     <td class="col-sm-1 col-md-1 text-center"><strong>{{$stk_push_payments->status}}</strong></td> 
-                                                                 @endforeach --}}
+                                                                
                                                                      @else
                                                                          <p>No Purchase history</p>
                                                                     @endif
                                                          </tbody>
                                 </table>
+                                <a href="purchases" class="btn btn-primary">Check Your Payment Status</a>
+
                              </div>  
                             </div>
                          @endif

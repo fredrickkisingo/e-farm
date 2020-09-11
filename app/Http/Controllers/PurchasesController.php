@@ -27,7 +27,8 @@ class PurchasesController extends Controller
      */
     public function index()
     {
-      //
+      $stk_push_payments=Stk_push_payments::OrderBy('created_at')->paginate(10);
+      return view('purchases.index')->with('stk_push_payments',$stk_push_payments);
     }
 
     /**
@@ -200,6 +201,7 @@ class PurchasesController extends Controller
             //deletes cart entries of the specific user logged in
             Cart::where('user_id', $user_id)->delete();
 
+            flash('Request sent, Kindly Check your phone and Enter pin')->success();
             return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
             break;
 
