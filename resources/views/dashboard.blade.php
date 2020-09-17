@@ -83,15 +83,16 @@
                                                                             {{Form::submit('Remove', ['class'=>'btn btn-danger'])}} {!!Form::close()!!}
                                                                         </td>                                                          
                                                                      </tr>
+                                                                    
                                                                         
                                                                  @endforeach
-                                                                
+                                                                 <a href="purchases" class="btn btn-primary">Check Your Payment Status</a>
                                                                      @else
                                                                          <p>No Purchase history</p>
                                                                     @endif
                                                          </tbody>
                                 </table>
-                                <a href="purchases" class="btn btn-primary">Check Your Payment Status</a>
+                               
 
                              </div>  
                             </div>

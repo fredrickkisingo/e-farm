@@ -153,7 +153,7 @@ class PurchasesController extends Controller
                    //here is where we are executing the mpesa payment
                     $phone_num = $request->input('phone_number');
             /*
-                Here the Request has been sent for processing to MPESA now it's checking whether it was successful or it failed
+                Here the Request has been sent for processing to MPESA ,now it's checking whether it was successful or it failed
             */
 
             $pesa      = Mpesa::express($entry,$phone_num,'Cart products payment','Testing Payment');
@@ -174,19 +174,13 @@ class PurchasesController extends Controller
           $ResponseCode = $response->ResponseCode;
           $ResponseDescription = $response->ResponseDescription;
           $CustomerMessage = $response->CustomerMessage;
-
-
-                     
+             
           switch($response->ResponseCode){
-
             case 0:
             /*
             Here insert the payment data to the mpesa table
             also update the order status to maybe confirmation
             */
-
-            
-
             $succ = new MpesaPayment;
 
             $succ->CheckoutRequestID= $CheckoutRequestID;
@@ -194,14 +188,10 @@ class PurchasesController extends Controller
             $succ->ResultDesc=$ResponseDescription;
             $succ->ResponseCode=$ResponseCode;
             $succ->save();
-
-
-           
-
             //deletes cart entries of the specific user logged in
             Cart::where('user_id', $user_id)->delete();
 
-            flash('Request sent, Kindly Check your phone and Enter pin')->success();
+            
             return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
             break;
 
@@ -214,37 +204,25 @@ class PurchasesController extends Controller
 
                     $requestId    = $response->requestId;
                     $errorCode    = $response->errorCode;
-                    $errorMessage = $response->errorMessage;
-
-                   
-                    
+                    $errorMessage = $response->errorMessage;                               
                 /*
                 Failed payment request....
                 update the Order status here and the Payment status on the MPESA Payments table.
                 */
                  return back()->with('error','Try Again');
                 }
-
             }
-     
         }
-
-        
-          
-        
-    
+                      
         return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
 
       
     
-    }
-
-   
+    }  
     public function show($id)
     {
         //
      }
-
     /**
      * Show the form for editing the specified resource.
      *

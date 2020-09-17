@@ -2,7 +2,7 @@
     @section ('content')
 <div class="container">
         {{-- same as php echo $title --}} {{-- this is the main index page --}}
-        <h1>Maps Farm</h1>
+        <h1>Maps for Farms</h1>
         <p>
             Welcome to Maps for Available Farmers
         </p>

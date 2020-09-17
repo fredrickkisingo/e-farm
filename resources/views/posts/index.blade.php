@@ -19,7 +19,11 @@
                     <small>Farmers Name: {{$post->user->name}}</small><br>
                     <small>Location: {{$post->location}}</small><br>
                     <small>Status: </span><span class="text-success"><strong>In Stock</strong></small><br>
-                    c
+                        <a href="/posts/{{$post->id}}" class="btn btn-primary">More Information</a>
+                    <div class="float-right">
+                        <a href="/directions" class="btn btn-secondary btn-sm" role="button">
+                            <i style='font-size:16px' class='fas'>&#xf3c5;</i>
+                        </a>
                     </div>
                 </div>
             </div>
