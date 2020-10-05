@@ -22,6 +22,7 @@
       </div>
      <div class="form-group col-md-6">
         {{Form::label('phone_number','My Phone Number')}} {{Form::text('phone_number', '', ['class'=>'form-control ', 'placeholder'=>'Phone Number','maxlength'=>'13'])}}
+      
       </div>
   </div>
     <div class="form-group">
