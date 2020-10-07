@@ -57,7 +57,7 @@ class PostsController extends Controller
         $this->validate($request, [
             'title'=>'required',
             'body'=>'required',
-            'price' => 'required',
+            'product_price' => 'required',
             'phone_number' => 'required',
             'location' => 'required',
             'cover_image' =>'image|nullable|max:1999',
