@@ -153,7 +153,7 @@ class PurchasesController extends Controller
                    //here is where we are executing the mpesa payment
                     $phone_num = $request->input('phone_number');
             /*
-                Here the Request has been sent for processing to MPESA ,now it's checking whether it was successful or it failed
+                 Request has been sent for processing to MPESA ,now it's checking whether it was successful or it failed
             */
 
             $pesa      = Mpesa::express($entry,$phone_num,'Cart products payment','Testing Payment');
