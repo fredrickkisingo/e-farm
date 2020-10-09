@@ -123,8 +123,10 @@ class PurchasesController extends Controller
     }
     public function store(Request $request)
     {
-            $user_id = auth()->user()->id;//this is to allow the mpesa transaction to take place for the cart contents of that specific user
-
+           
+            //this is to allow the mpesa transaction to take place for the cart contents of that specific user
+            $user_id = auth()->user()->id;
+            
             $cart_select= Cart::where('user_id',$user_id)->get();
     
             //here we are saving the cart items purchased by the user into the purchases table
