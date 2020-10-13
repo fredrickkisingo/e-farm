@@ -25,6 +25,7 @@ class PurchasesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
       $stk_push_payments=Stk_push_payments::OrderBy('created_at')->paginate(10);

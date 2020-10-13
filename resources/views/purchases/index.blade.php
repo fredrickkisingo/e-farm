@@ -17,7 +17,8 @@
                                     <th>ID</th>
                                     <td>Paid Amount</td>
                                     <th>Result Description</th>
-                                    <th>Mpesa Receipt Number</th>
+                                    <th>Phone Number</th>
+                                    <th>Paid at</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -27,7 +28,8 @@
                                         <td>{{$stk_push_payment->id}}</td>
                                         <td>{{$stk_push_payment->amount}}   
                                         <td>{{$stk_push_payment->ResultDesc}}</td>
-                                        <td>{{$stk_push_payment->MpesaReceiptNumber}}</td>
+                                        <td>{{$stk_push_payment->phonenumber}}</td>
+                                        <td>{{$stk_push_payment->created_at}}</td>
                                         <td>{{$stk_push_payment->status}}</td>
                                     </tr>     
                                     @endforeach 
