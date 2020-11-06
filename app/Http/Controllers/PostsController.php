@@ -29,7 +29,6 @@ class PostsController extends Controller
     public function index()
     {
         
-      
         //sql statement would be  $posts =DB::select('SELECT *FROM')
        $posts = Post::orderBy('created_at','desc')->paginate(10);
        return view('posts.index')->with('posts',$posts);
@@ -79,7 +78,7 @@ class PostsController extends Controller
             }
             //create Product
             $post= new Post;
-             $mapLocate = new Map;
+            $mapLocate = new Map;
 
             $post->title=$request->input('title');
             $post->body=$request->input('body');

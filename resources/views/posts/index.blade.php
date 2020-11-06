@@ -16,7 +16,7 @@
                         <div class="pricetext"><i style='font-size:16px' class='fas'>&#xf0d6;</i><b> Ksh {{$post->products_price}}</b></div>
                     </div>
                     <small>Posted On {{$post->created_at}}</small><br>
-                    <small>Farmers Name: {{$post->user->name}}</small><br>
+                   <small>Farmers Name: {{$post->user->name}}</small><br>
                     <small>Location: {{$post->location}}</small><br>
                     <small>Status: </span><span class="text-success"><strong>In Stock</strong></small><br>
                         <a href="/posts/{{$post->id}}" class="btn btn-primary">More Information</a>
