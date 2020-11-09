@@ -66,7 +66,7 @@
             @else
               {!!Form::open(['action'=>['CartsController@update', $post->id], 'method'=>'POST','class'=>'float-left'])!!} 
               {{Form::hidden('_method','PUT')}}
-              {{Form::button('Add to Cart <i class="fas fa-shopping-cart"></i>', ['type' => 'submit','class'=>'btn btn-lg btn-outline-primary text-uppercase', 'style'=>'margin:5px'])}} 
+              {{Form::button('Purchase product <i class="fas fa-shopping-cart"></i>', ['type' => 'submit','class'=>'btn btn-lg btn-outline-primary text-uppercase', 'style'=>'margin:5px'])}} 
               {!!Form::close()!!}
               
             @endif 

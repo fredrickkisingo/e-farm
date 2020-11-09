@@ -79,7 +79,6 @@ class PostsController extends Controller
             //create Product
             $post= new Post;
             $mapLocate = new Map;
-
             $post->title=$request->input('title');
             $post->body=$request->input('body');
             //not setting it into a request since i'm not obtaining it from  a form

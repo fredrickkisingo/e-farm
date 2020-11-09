@@ -161,6 +161,7 @@ class PurchasesController extends Controller
 
             $pesa      = Mpesa::express($entry,$phone_num,'Cart products payment','Testing Payment');
              $response  = json_decode($pesa);
+            //  dd($response);
              
 
              
