@@ -14,7 +14,6 @@
        <aside class="col-sm-7">
         <article class="card-body p-5">
           <h3 class="title mb-3"><strong>{{$post->product_name}}</strong></h3>
-
           <p class="price-detail-wrap">
             <span class="price h3 text-info"> 
 		        <span class="currency">KSH </span><span class="num">{!!$post->products_price!!}</span>
@@ -57,10 +56,7 @@
 
             @if(Auth::user()->id == $post->user_id)
               <a href="/posts/{{$post->id}}/edit" class="btn btn-warning">Edit</a> 
-              {!!Form::open(['action'=>['PostsController@destroy', $post->id], 'method'=>'POST','class'=>'float-right'])!!} 
-              {{Form::hidden('_method', 'DELETE')}} 
-              {{Form::submit('Delete', ['class'=>'btn btn-danger'])}} 
-              {!!Form::close()!!} 
+              
 
            <!-- Adds the buy  button if the product doesn't belong to current user -->
             @else
