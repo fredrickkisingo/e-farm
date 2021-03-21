@@ -46,7 +46,9 @@ Registered Users| MkulimaBora Admin
                     @foreach($users as $row)
                   <tr>
                   <td>{{$row->id}}</td>
-                    <td>{{$row->name}} </td>
+                    <td>{{$row->name}} </td> 
+
+                    
                     <td>{{$row->email}} </td>
                   <td>{{$row->role_id}}</td>
                     <td class="text-right">

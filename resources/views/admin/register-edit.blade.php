@@ -33,7 +33,7 @@ Edit Registered | MkulimaBora Admin
                           </div>
                           <button type="submit" class="btn btn-success">Update</button>
                           <a href="/role-register"><button type="submit" class="btn btn-danger">Cancel</a></button>
-    
+
                         </form>
                        </div>
                    </div>

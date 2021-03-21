@@ -1,0 +1,68 @@
+<?php
+ public  function format_lmno($data){
+        //$data is the json encoded pqyload from mpesa.
+           $data = json_decode($data);
+           $tmp = $data->Body->stkCallback;
+           $master = array();
+           if($tmp->ResultCode == 0){
+           foreach($data->Body->stkCallback->CallbackMetadata->Item as $item){
+               $item = (array) $item;
+               $master[$item['Name']] = ((isset($item['Value'])) ? $item['Value'] : NULL);
+
+           }
+           }
+           $master = (object) $master;
+           $master->ResultCode = $tmp->ResultCode;
+           $master->MerchantRequestID = $tmp->MerchantRequestID;
+           $master->CheckoutRequestID = $tmp->CheckoutRequestID;
+           $master->ResultDesc = $tmp->ResultDesc;
+
+           return $master;
+
+}
+    public function receiveStkpushpayments(Request $request){
+        
+         \Log::info($request->getContent()); // will log a copy in logs for that day
+            
+         $data=$this->format_lmno($request->getContent());
+            
+
+
+          
+             if ($data->ResultCode == 0){          
+                
+                // saving the information into the table in MySQL  
+                  
+                $stk_push_payments = new Stk_push_payments; 
+                $stk_push_payments->amount= $data->Amount;
+                $stk_push_payments->phonenumber= $data->PhoneNumber;
+                $stk_push_payments->MpesaReceiptNumber= $data->MpesaReceiptNumber;
+                $stk_push_payments->CheckoutRequestID= $data->CheckoutRequestID;
+                $stk_push_payments->MerchantRequestID= $data->MerchantRequestID;
+                $stk_push_payments->ResultDesc = $data->ResultDesc;
+                $stk_push_payments->status = 'successful';
+                //$stk_push_payments->user_id= auth()->user()->id;
+                $stk_push_payments->save();
+
+                return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
+               }else{
+                
+                
+                
+                $stk_push_payments = new Stk_push_payments;
+                $stk_push_payments->ResultDesc = $data->ResultDesc;
+                $stk_push_payments->CheckoutRequestID= $data->CheckoutRequestID;
+                $stk_push_payments->MerchantRequestID= $data->MerchantRequestID;
+                $stk_push_payments->amount='0';
+                $stk_push_payments->phonenumber='0';
+                $stk_push_payments->MpesaReceiptNumber='0';
+                $stk_push_payments->status = 'failed';
+               // $stk_push_payments->user_id = auth()->user()->id;
+
+                $stk_push_payments->save();
+
+                // return redirect('/dashboard')->with('success', 'Purchased Items Added to Your History');
+    
+            }
+              
+    }

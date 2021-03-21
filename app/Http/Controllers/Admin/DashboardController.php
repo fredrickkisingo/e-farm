@@ -39,4 +39,6 @@ class DashboardController extends Controller
         return redirect('/admin/role-register')->with('status','Your User has been  deleted!');
             
      }
+
+    
 }
