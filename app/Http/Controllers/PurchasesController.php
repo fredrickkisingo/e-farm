@@ -153,7 +153,7 @@ class PurchasesController extends Controller
         if (Cart::where('user_id', '=', $user_id)->exists()) {
                     $cart_price= new Cart;
                     $entry = Cart::where(['user_id' => $user_id])->pluck('total_price')->sum();
-                   //here is where we are executing the mpesa payment
+                   //here is where we are placing the phone number to complete the mpesa payment
                     $phone_num = $request->input('phone_number');
             /*
                  Request has been sent for processing to MPESA ,now it's checking whether it was successful or it failed
